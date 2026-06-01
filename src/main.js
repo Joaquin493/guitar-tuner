@@ -2,6 +2,7 @@ import { TUNINGS, DEFAULT_TUNING } from "./core/strings.js";
 import { analyze } from "./core/notes.js";
 import { Smoother } from "./core/smoother.js";
 import { PitchDetector } from "./audio/PitchDetector.js";
+import { ReferenceTone } from "./audio/ReferenceTone.js";
 import { createCentsMeter } from "./ui/CentsMeter.js";
 import { createWaveform } from "./ui/Waveform.js";
 import { createStringSelector } from "./ui/StringSelector.js";
@@ -25,7 +26,25 @@ const els = {
 const meter = createCentsMeter(els.gauge);
 const waveform = createWaveform(els.waveform);
 const detector = new PitchDetector();
+const tone = new ReferenceTone();
 const smoother = new Smoother(5);
+
+// --- Preferencias persistentes (localStorage) --------------------------------
+const STORE = { tuning: "gt_tuning", ref: "gt_ref" };
+const load = (k) => {
+  try {
+    return localStorage.getItem(k);
+  } catch {
+    return null;
+  }
+};
+const save = (k, v) => {
+  try {
+    localStorage.setItem(k, v);
+  } catch {
+    /* modo privado / sin acceso */
+  }
+};
 
 const STATUS_TEXT = {
   inTune: "Afinado ✓",
@@ -46,8 +65,13 @@ let currentLevel = 0;
 let lastStatus = "silent";
 
 // --- Selector de afinación ---------------------------------------------------
-let currentStrings = TUNINGS[DEFAULT_TUNING];
-let selector = createStringSelector(els.stringSelector, currentStrings);
+const playReference = (s) => tone.play(s.hz);
+
+const savedTuning = load(STORE.tuning);
+const initialTuning = TUNINGS[savedTuning] ? savedTuning : DEFAULT_TUNING;
+
+let currentStrings = TUNINGS[initialTuning];
+let selector = createStringSelector(els.stringSelector, currentStrings, playReference);
 
 for (const name of Object.keys(TUNINGS)) {
   const opt = document.createElement("option");
@@ -55,18 +79,27 @@ for (const name of Object.keys(TUNINGS)) {
   opt.textContent = name;
   els.tuningSelect.appendChild(opt);
 }
-els.tuningSelect.value = DEFAULT_TUNING;
+els.tuningSelect.value = initialTuning;
 
 els.tuningSelect.addEventListener("change", () => {
   currentStrings = TUNINGS[els.tuningSelect.value];
-  selector = createStringSelector(els.stringSelector, currentStrings);
+  selector = createStringSelector(els.stringSelector, currentStrings, playReference);
   smoother.reset();
+  save(STORE.tuning, els.tuningSelect.value);
 });
 
 // --- Referencia A4 -----------------------------------------------------------
+const savedRef = Number(load(STORE.ref));
+if (savedRef >= 432 && savedRef <= 446) {
+  referencePitch = savedRef;
+  els.refPitch.value = String(savedRef);
+  els.refValue.textContent = savedRef + " Hz";
+}
+
 els.refPitch.addEventListener("input", () => {
   referencePitch = Number(els.refPitch.value);
   els.refValue.textContent = referencePitch + " Hz";
+  save(STORE.ref, els.refPitch.value);
 });
 
 // --- Micrófono ---------------------------------------------------------------

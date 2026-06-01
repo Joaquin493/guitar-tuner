@@ -279,6 +279,20 @@ body {
   box-shadow: 0 0 18px rgba(52, 211, 153, 0.22);
 }
 .string-btn.active .s-note { color: var(--green); }
+.string-btn.playing {
+  border-color: var(--gold);
+  background: rgba(190, 168, 105, 0.16);
+  box-shadow: 0 0 18px rgba(190, 168, 105, 0.3);
+}
+.string-btn.playing .s-note { color: var(--gold); }
+
+.hint {
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: -6px;
+  opacity: 0.8;
+}
 
 /* ---- Botón de micrófono ---- */
 .mic-button {

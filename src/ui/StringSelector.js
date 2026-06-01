@@ -1,6 +1,7 @@
 // Botones de las 6 cuerdas. Resalta la cuerda cuya nota+octava coincide
 // con lo que se está detectando (modo cromático automático).
 export function createStringSelector(container, strings) {
+  container.innerHTML = ""; // permite reconstruir al cambiar de afinación
   const buttons = strings.map((s) => {
     const btn = document.createElement("button");
     btn.className = "string-btn";

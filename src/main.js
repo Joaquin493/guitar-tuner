@@ -1,5 +1,6 @@
-import { STANDARD_TUNING } from "./core/strings.js";
+import { TUNINGS, DEFAULT_TUNING } from "./core/strings.js";
 import { analyze } from "./core/notes.js";
+import { Smoother } from "./core/smoother.js";
 import { PitchDetector } from "./audio/PitchDetector.js";
 import { createCentsMeter } from "./ui/CentsMeter.js";
 import { createWaveform } from "./ui/Waveform.js";
@@ -17,12 +18,13 @@ const els = {
   refValue: document.getElementById("ref-value"),
   waveform: document.getElementById("waveform"),
   stringSelector: document.getElementById("string-selector"),
+  tuningSelect: document.getElementById("tuning-select"),
 };
 
 const meter = createCentsMeter(els.needle);
 const waveform = createWaveform(els.waveform);
-const selector = createStringSelector(els.stringSelector, STANDARD_TUNING);
 const detector = new PitchDetector();
+const smoother = new Smoother(5);
 
 const STATUS_TEXT = {
   inTune: "Afinado ✓",
@@ -40,12 +42,33 @@ let listening = false;
 let lastSoundTime = 0;
 let lastAnalysis = 0;
 let currentLevel = 0;
+let lastStatus = "silent";
 
+// --- Selector de afinación ---------------------------------------------------
+let currentStrings = TUNINGS[DEFAULT_TUNING];
+let selector = createStringSelector(els.stringSelector, currentStrings);
+
+for (const name of Object.keys(TUNINGS)) {
+  const opt = document.createElement("option");
+  opt.value = name;
+  opt.textContent = name;
+  els.tuningSelect.appendChild(opt);
+}
+els.tuningSelect.value = DEFAULT_TUNING;
+
+els.tuningSelect.addEventListener("change", () => {
+  currentStrings = TUNINGS[els.tuningSelect.value];
+  selector = createStringSelector(els.stringSelector, currentStrings);
+  smoother.reset();
+});
+
+// --- Referencia A4 -----------------------------------------------------------
 els.refPitch.addEventListener("input", () => {
   referencePitch = Number(els.refPitch.value);
   els.refValue.textContent = referencePitch + " Hz";
 });
 
+// --- Micrófono ---------------------------------------------------------------
 els.micButton.addEventListener("click", async () => {
   if (listening) {
     stopListening();
@@ -71,6 +94,7 @@ els.micButton.addEventListener("click", async () => {
 function stopListening() {
   detector.stop();
   listening = false;
+  smoother.reset();
   els.micButton.textContent = "Encender micrófono";
   els.micButton.classList.remove("active");
   els.statusPill.textContent = "Micrófono apagado";
@@ -87,6 +111,7 @@ function showSilent() {
   els.badge.className = "status-badge silent";
   meter.update(0, "silent");
   selector.highlight(null, null);
+  lastStatus = "silent";
 }
 
 function render(r) {
@@ -97,6 +122,12 @@ function render(r) {
   els.badge.className = "status-badge " + r.status;
   meter.update(r.cents, r.status);
   selector.highlight(r.noteName, r.octave);
+
+  // Feedback háptico al entrar en afinado (móviles que lo soporten).
+  if (r.status === "inTune" && lastStatus !== "inTune") {
+    navigator.vibrate?.(60);
+  }
+  lastStatus = r.status;
 }
 
 function loop(now) {
@@ -109,8 +140,10 @@ function loop(now) {
     currentLevel = level;
     if (frequency) {
       lastSoundTime = now;
-      render(analyze(frequency, referencePitch));
+      const smoothed = smoother.push(frequency);
+      render(analyze(smoothed, referencePitch));
     } else if (now - lastSoundTime > SILENCE_RESET_MS) {
+      smoother.reset();
       showSilent();
     }
   }

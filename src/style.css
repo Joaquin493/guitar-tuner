@@ -176,6 +176,16 @@ body {
 .meter-card[data-status="close"] .note-name { color: var(--yellow); }
 .meter-card[data-status="silent"] .note-name { color: #4b5563; }
 
+/* ---- Gráfico de estabilidad ---- */
+.stability {
+  width: 100%;
+  height: 52px;
+  margin-top: 6px;
+  display: block;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
 /* ---- Medidor circular (SVG) ---- */
 .gauge {
   width: 100%;

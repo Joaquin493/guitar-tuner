@@ -6,6 +6,7 @@ import { ReferenceTone } from "./audio/ReferenceTone.js";
 import { createCentsMeter } from "./ui/CentsMeter.js";
 import { createWaveform } from "./ui/Waveform.js";
 import { createStringSelector } from "./ui/StringSelector.js";
+import { createStabilityGraph } from "./ui/StabilityGraph.js";
 
 const els = {
   statusPill: document.getElementById("status-pill"),
@@ -15,6 +16,7 @@ const els = {
   frequency: document.getElementById("frequency"),
   gauge: document.getElementById("gauge"),
   badge: document.getElementById("status-badge"),
+  stability: document.getElementById("stability"),
   micButton: document.getElementById("mic-button"),
   refPitch: document.getElementById("ref-pitch"),
   refValue: document.getElementById("ref-value"),
@@ -25,6 +27,7 @@ const els = {
 
 const meter = createCentsMeter(els.gauge);
 const waveform = createWaveform(els.waveform);
+const graph = createStabilityGraph(els.stability);
 const detector = new PitchDetector();
 const tone = new ReferenceTone();
 const smoother = new Smoother(5);
@@ -150,6 +153,7 @@ function stopListening() {
   els.statusPill.classList.remove("on");
   showSilent();
   waveform.update(0, false);
+  graph.clear();
 }
 
 function showSilent() {
@@ -192,10 +196,15 @@ function loop(now) {
     if (frequency) {
       lastSoundTime = now;
       const smoothed = smoother.push(frequency);
-      render(analyze(smoothed, referencePitch));
-    } else if (now - lastSoundTime > SILENCE_RESET_MS) {
-      smoother.reset();
-      showSilent();
+      const r = analyze(smoothed, referencePitch);
+      render(r);
+      graph.push({ cents: r.cents, status: r.status });
+    } else {
+      graph.push(null);
+      if (now - lastSoundTime > SILENCE_RESET_MS) {
+        smoother.reset();
+        showSilent();
+      }
     }
   }
   waveform.update(currentLevel, true);

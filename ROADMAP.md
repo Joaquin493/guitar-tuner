@@ -37,8 +37,9 @@ Estado de las features futuras. Orden aproximado por relación impacto/esfuerzo.
   (`src/audio/mpm.js`)
 - [x] **PWA instalable + offline** — manifest + service worker (Workbox).
   Instalable en el iPhone desde Safari y funciona sin conexión.
-- [ ] **Historial / gráfico de estabilidad** — mini-canvas con los últimos
-  segundos de cents para ver si la cuerda se va tras afinar.
+- [x] **Historial / gráfico de estabilidad** — mini-canvas con los últimos
+  segundos de cents (banda de afinado + línea central) para ver si la cuerda se
+  va tras afinar. (`src/ui/StabilityGraph.js`)
 
 ## 🚀 Ambiciosas
 - [ ] **AudioWorklet** — mover la autocorrelación fuera del hilo principal para

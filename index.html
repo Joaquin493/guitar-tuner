@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0A0A0F" />
+    <title>Guitar Tuner</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="grid"></div>
+
+    <main class="app">
+      <header class="topbar">
+        <span id="status-pill" class="pill">Micrófono apagado</span>
+      </header>
+
+      <h1 class="title">Guitar Tuner</h1>
+
+      <section class="meter-card">
+        <div class="note-display">
+          <span id="note-name" class="note-name">–</span>
+          <span id="note-octave" class="note-octave"></span>
+        </div>
+        <div id="frequency" class="frequency">0.0 Hz</div>
+
+        <div class="cents-meter">
+          <div class="green-zone"></div>
+          <div class="center-line"></div>
+          <div class="needle" id="needle"></div>
+          <div class="scale"><span>-50</span><span>0</span><span>+50</span></div>
+        </div>
+
+        <div id="status-badge" class="status-badge silent">Esperando…</div>
+      </section>
+
+      <div class="waveform" id="waveform"></div>
+
+      <div class="string-selector" id="string-selector"></div>
+
+      <button id="mic-button" class="mic-button">Encender micrófono</button>
+
+      <div class="ref-row">
+        <label for="ref-pitch">Referencia A4</label>
+        <input type="range" id="ref-pitch" min="432" max="446" step="1" value="440" />
+        <span id="ref-value">440 Hz</span>
+      </div>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

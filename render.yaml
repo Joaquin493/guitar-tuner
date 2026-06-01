@@ -1,0 +1,10 @@
+# Infra-as-code opcional para Render.
+# Permite crear el servicio conectando el repo sin configurar a mano.
+services:
+  - type: web
+    name: guitar-tuner-web
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: node server.js
+    autoDeploy: true

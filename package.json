@@ -1,0 +1,18 @@
+{
+  "name": "guitar-tuner-web",
+  "version": "1.0.0",
+  "description": "Afinador de guitarra en el navegador (Web Audio + autocorrelación). Port de la app iOS.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

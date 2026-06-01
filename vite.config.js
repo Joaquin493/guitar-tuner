@@ -6,6 +6,9 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "favicon-32.png", "apple-touch-icon.png"],
+      // Los splash de iOS no necesitan precache offline (la instalación ocurre
+      // online); se sirven igual desde /splash/.
+      workbox: { globIgnores: ["**/splash/**"] },
       manifest: {
         name: "Guitar Tuner",
         short_name: "Tuner",

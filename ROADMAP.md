@@ -29,7 +29,8 @@ Estado de las features futuras. Orden aproximado por relación impacto/esfuerzo.
   - [x] Responsive + safe-areas de iOS (notch).
   - [x] Ícono de app (púa dorada) + modo standalone.
   - [x] Modo claro/oscuro (toggle persistente, respeta la preferencia del SO).
-  - Pendiente: splash screen custom de iOS.
+  - [x] Splash screen custom de iOS (púa sobre fondo oscuro, 18 resoluciones).
+    Generadas con `npm run splash` (`scripts/generate-splash.mjs`).
 
 ## 🛠️ Medio esfuerzo
 - [x] **Detección de octava más robusta** — reemplazada la autocorrelación

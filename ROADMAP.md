@@ -13,9 +13,9 @@ Estado de las features futuras. Orden aproximado por relación impacto/esfuerzo.
 ## 🔜 Próximas (fáciles)
 - [ ] **Modo cromático explícito (toggle)** — botón "Cromático / Guitarra" que
   oculte el selector de cuerdas. El motor ya detecta nota libre.
-- [ ] **Tono de referencia reproducible** — botón por cuerda que suene su Hz
-  objetivo con un `OscillatorNode` (afinación de oído). Reusar el `AudioContext`.
-- [ ] **Persistir preferencias** — guardar afinación elegida y referencia A4 en
+- [x] **Tono de referencia reproducible** — tocar una cuerda suena su Hz
+  objetivo con un `OscillatorNode`. (`src/audio/ReferenceTone.js`)
+- [x] **Persistir preferencias** — afinación y referencia A4 guardadas en
   `localStorage`.
 
 ## 🎨 UI / look & feel

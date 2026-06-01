@@ -18,6 +18,19 @@ Estado de las features futuras. Orden aproximado por relación impacto/esfuerzo.
 - [ ] **Persistir preferencias** — guardar afinación elegida y referencia A4 en
   `localStorage`.
 
+## 🎨 UI / look & feel
+- [ ] **Pulir el front-end para que se vea como una app actual** — elevar el
+  diseño del estado funcional actual a una UI moderna y pulida:
+  - Medidor circular/arco tipo afinador profesional (en vez de barra lineal),
+    con animación fluida de la aguja.
+  - Transiciones y micro-interacciones (estados de botón, entrada de nota,
+    pulso al afinar).
+  - Tipografía cuidada (fuente custom para la nota), jerarquía y espaciado.
+  - Glow/feedback de color más rico al afinar; modo claro/oscuro.
+  - Responsive real (tablet/desktop) y safe-areas en iOS (notch).
+  - Ícono de app + splash para la versión PWA.
+  - Considerar un set de componentes/animaciones (CSS puro o una lib liviana).
+
 ## 🛠️ Medio esfuerzo
 - [ ] **Detección de octava más robusta (HPS)** — evita que la autocorrelación
   enganche un armónico; mejora la cuerda 6 (E2). Va en `src/audio/`.

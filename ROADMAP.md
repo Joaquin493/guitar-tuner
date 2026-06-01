@@ -27,13 +27,14 @@ Estado de las features futuras. Orden aproximado por relación impacto/esfuerzo.
   - [x] Glow/feedback de color por estado (afinado/baja/alta/casi).
   - [x] Glassmorphism, jerarquía y espaciado.
   - [x] Responsive + safe-areas de iOS (notch).
-  - Pendiente: modo claro/oscuro, ícono de app + splash (va junto con la PWA).
+  - [x] Ícono de app (púa dorada) + modo standalone.
+  - Pendiente: modo claro/oscuro, splash screen custom de iOS.
 
 ## 🛠️ Medio esfuerzo
 - [ ] **Detección de octava más robusta (HPS)** — evita que la autocorrelación
   enganche un armónico; mejora la cuerda 6 (E2). Va en `src/audio/`.
-- [ ] **PWA instalable + offline** — `manifest.json` + service worker. Permite
-  "instalar" en el iPhone desde Safari y usar sin conexión.
+- [x] **PWA instalable + offline** — manifest + service worker (Workbox).
+  Instalable en el iPhone desde Safari y funciona sin conexión.
 - [ ] **Historial / gráfico de estabilidad** — mini-canvas con los últimos
   segundos de cents para ver si la cuerda se va tras afinar.
 

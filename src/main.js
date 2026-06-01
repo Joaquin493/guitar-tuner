@@ -33,7 +33,12 @@ const tone = new ReferenceTone();
 const smoother = new Smoother(5);
 
 // --- Preferencias persistentes (localStorage) --------------------------------
-const STORE = { tuning: "gt_tuning", ref: "gt_ref", mode: "gt_mode" };
+const STORE = {
+  tuning: "gt_tuning",
+  ref: "gt_ref",
+  mode: "gt_mode",
+  theme: "gt_theme",
+};
 const load = (k) => {
   try {
     return localStorage.getItem(k);
@@ -66,6 +71,26 @@ let lastSoundTime = 0;
 let lastAnalysis = 0;
 let currentLevel = 0;
 let lastStatus = "silent";
+
+// --- Tema claro / oscuro -----------------------------------------------------
+const themeToggle = document.getElementById("theme-toggle");
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+function applyTheme(theme) {
+  document.body.dataset.theme = theme;
+  themeToggle.textContent = theme === "light" ? "☀️" : "🌙";
+  if (themeMeta) themeMeta.content = theme === "light" ? "#f3f1ea" : "#08080c";
+  save(STORE.theme, theme);
+}
+
+const savedTheme = load(STORE.theme);
+const prefersLight =
+  window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+applyTheme(savedTheme || (prefersLight ? "light" : "dark"));
+
+themeToggle.addEventListener("click", () => {
+  applyTheme(document.body.dataset.theme === "light" ? "dark" : "light");
+});
 
 // --- Modo Guitarra / Cromático -----------------------------------------------
 const appEl = document.querySelector(".app");

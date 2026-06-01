@@ -28,7 +28,8 @@ Estado de las features futuras. Orden aproximado por relación impacto/esfuerzo.
   - [x] Glassmorphism, jerarquía y espaciado.
   - [x] Responsive + safe-areas de iOS (notch).
   - [x] Ícono de app (púa dorada) + modo standalone.
-  - Pendiente: modo claro/oscuro, splash screen custom de iOS.
+  - [x] Modo claro/oscuro (toggle persistente, respeta la preferencia del SO).
+  - Pendiente: splash screen custom de iOS.
 
 ## 🛠️ Medio esfuerzo
 - [x] **Detección de octava más robusta** — reemplazada la autocorrelación

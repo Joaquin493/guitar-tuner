@@ -43,8 +43,7 @@ Estado de las features futuras. Orden aproximado por relación impacto/esfuerzo.
   va tras afinar. (`src/ui/StabilityGraph.js`)
 
 ## 🚀 Ambiciosas
-- [ ] **AudioWorklet** — mover la autocorrelación fuera del hilo principal para
-  UI más fluida y análisis más frecuente. Refactor de `autocorrelate.js` +
-  `PitchDetector.js`.
-- [ ] **Multi-instrumento** — bajo, ukelele, violín, etc. Solo cambia el set de
-  cuerdas y el rango `MIN_HZ/MAX_HZ` en `PitchDetector.js`.
+- [x] **AudioWorklet** — la detección (MPM) corre fuera del hilo principal en
+  `public/pitch-processor.js`, con fallback a `AnalyserNode` si el navegador no
+  lo soporta. UI más fluida y análisis más frecuente (hop de 2048 muestras).
+- [ ] ~~**Multi-instrumento**~~ — descartado por ahora.

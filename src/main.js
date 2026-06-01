@@ -8,10 +8,11 @@ import { createStringSelector } from "./ui/StringSelector.js";
 
 const els = {
   statusPill: document.getElementById("status-pill"),
+  card: document.getElementById("meter-card"),
   noteName: document.getElementById("note-name"),
   noteOctave: document.getElementById("note-octave"),
   frequency: document.getElementById("frequency"),
-  needle: document.getElementById("needle"),
+  gauge: document.getElementById("gauge"),
   badge: document.getElementById("status-badge"),
   micButton: document.getElementById("mic-button"),
   refPitch: document.getElementById("ref-pitch"),
@@ -21,7 +22,7 @@ const els = {
   tuningSelect: document.getElementById("tuning-select"),
 };
 
-const meter = createCentsMeter(els.needle);
+const meter = createCentsMeter(els.gauge);
 const waveform = createWaveform(els.waveform);
 const detector = new PitchDetector();
 const smoother = new Smoother(5);
@@ -109,6 +110,7 @@ function showSilent() {
   els.frequency.textContent = "0.0 Hz";
   els.badge.textContent = STATUS_TEXT.silent;
   els.badge.className = "status-badge silent";
+  els.card.dataset.status = "silent";
   meter.update(0, "silent");
   selector.highlight(null, null);
   lastStatus = "silent";
@@ -120,6 +122,7 @@ function render(r) {
   els.frequency.textContent = r.frequency.toFixed(1) + " Hz";
   els.badge.textContent = STATUS_TEXT[r.status];
   els.badge.className = "status-badge " + r.status;
+  els.card.dataset.status = r.status;
   meter.update(r.cents, r.status);
   selector.highlight(r.noteName, r.octave);
 

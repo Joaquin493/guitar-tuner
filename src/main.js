@@ -30,7 +30,7 @@ const tone = new ReferenceTone();
 const smoother = new Smoother(5);
 
 // --- Preferencias persistentes (localStorage) --------------------------------
-const STORE = { tuning: "gt_tuning", ref: "gt_ref" };
+const STORE = { tuning: "gt_tuning", ref: "gt_ref", mode: "gt_mode" };
 const load = (k) => {
   try {
     return localStorage.getItem(k);
@@ -63,6 +63,21 @@ let lastSoundTime = 0;
 let lastAnalysis = 0;
 let currentLevel = 0;
 let lastStatus = "silent";
+
+// --- Modo Guitarra / Cromático -----------------------------------------------
+const appEl = document.querySelector(".app");
+const modeButtons = document.querySelectorAll("#mode-toggle .mode-btn");
+
+function setMode(mode) {
+  const chromatic = mode === "chromatic";
+  appEl.classList.toggle("chromatic", chromatic);
+  modeButtons.forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
+  save(STORE.mode, mode);
+}
+modeButtons.forEach((b) =>
+  b.addEventListener("click", () => setMode(b.dataset.mode))
+);
+setMode(load(STORE.mode) === "chromatic" ? "chromatic" : "guitar");
 
 // --- Selector de afinación ---------------------------------------------------
 const playReference = (s) => tone.play(s.hz);

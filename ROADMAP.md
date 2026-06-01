@@ -19,17 +19,15 @@ Estado de las features futuras. Orden aproximado por relación impacto/esfuerzo.
   `localStorage`.
 
 ## 🎨 UI / look & feel
-- [ ] **Pulir el front-end para que se vea como una app actual** — elevar el
-  diseño del estado funcional actual a una UI moderna y pulida:
-  - Medidor circular/arco tipo afinador profesional (en vez de barra lineal),
-    con animación fluida de la aguja.
-  - Transiciones y micro-interacciones (estados de botón, entrada de nota,
-    pulso al afinar).
-  - Tipografía cuidada (fuente custom para la nota), jerarquía y espaciado.
-  - Glow/feedback de color más rico al afinar; modo claro/oscuro.
-  - Responsive real (tablet/desktop) y safe-areas en iOS (notch).
-  - Ícono de app + splash para la versión PWA.
-  - Considerar un set de componentes/animaciones (CSS puro o una lib liviana).
+- [x] **Pulir el front-end para que se vea como una app actual** — hecho:
+  - [x] Medidor circular/arco tipo afinador profesional con aguja animada.
+  - [x] Transiciones y micro-interacciones (botón con dot grabando, pulso al
+    afinar, escala de nota).
+  - [x] Tipografía custom (Sora para nota/título, Inter para UI).
+  - [x] Glow/feedback de color por estado (afinado/baja/alta/casi).
+  - [x] Glassmorphism, jerarquía y espaciado.
+  - [x] Responsive + safe-areas de iOS (notch).
+  - Pendiente: modo claro/oscuro, ícono de app + splash (va junto con la PWA).
 
 ## 🛠️ Medio esfuerzo
 - [ ] **Detección de octava más robusta (HPS)** — evita que la autocorrelación

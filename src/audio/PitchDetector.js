@@ -1,9 +1,7 @@
 // Captura de micrófono (getUserMedia + Web Audio) y lectura de frecuencia.
-import { autoCorrelate } from "./autocorrelate.js";
+import { detectPitch } from "./mpm.js";
 
-const RMS_GATE = 0.015;       // umbral de silencio (igual al original)
-const MIN_HZ = 70;
-const MAX_HZ = 1500;
+const RMS_GATE = 0.015; // umbral de silencio (igual al original)
 
 export class PitchDetector {
   constructor() {
@@ -67,8 +65,7 @@ export class PitchDetector {
 
     if (rms < RMS_GATE) return { frequency: null, level };
 
-    let freq = autoCorrelate(this.buffer, this.sampleRate);
-    if (freq < MIN_HZ || freq > MAX_HZ) freq = null;
-    return { frequency: freq, level };
+    const freq = detectPitch(this.buffer, this.sampleRate);
+    return { frequency: freq > 0 ? freq : null, level };
   }
 }

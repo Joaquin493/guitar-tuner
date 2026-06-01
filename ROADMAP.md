@@ -31,8 +31,10 @@ Estado de las features futuras. Orden aproximado por relación impacto/esfuerzo.
   - Pendiente: modo claro/oscuro, splash screen custom de iOS.
 
 ## 🛠️ Medio esfuerzo
-- [ ] **Detección de octava más robusta (HPS)** — evita que la autocorrelación
-  enganche un armónico; mejora la cuerda 6 (E2). Va en `src/audio/`.
+- [x] **Detección de octava más robusta** — reemplazada la autocorrelación
+  simple por el McLeod Pitch Method (NSDF), que elige el primer pico fuerte y
+  evita enganchar un armónico. Mejora notablemente la cuerda 6 (E2).
+  (`src/audio/mpm.js`)
 - [x] **PWA instalable + offline** — manifest + service worker (Workbox).
   Instalable en el iPhone desde Safari y funciona sin conexión.
 - [ ] **Historial / gráfico de estabilidad** — mini-canvas con los últimos
